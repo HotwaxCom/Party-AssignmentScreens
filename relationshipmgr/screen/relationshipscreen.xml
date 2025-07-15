@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+       require-authentication="anonymous-all">
+
+    <transition name="createParty">
+        <service-call name="create#relationshipmgr.party.Party"/>
+        <default-response type="none"/>
+    </transition>
+    <transition name="createPerson">
+        <service-call name="create#relationshipmgr.party.Person"/>
+        <default-response type="none"/>
+    </transition>
+    <transition name="createOrg">
+        <service-call name="create#relationshipmgr.party.Organization"/>
+        <default-response type="none"/>
+    </transition>
+    <transition name="createPartyRole">
+        <service-call name="create#relationshipmgr.party.PartyRole"/>
+        <default-response type="none"/>
+    </transition>
+    <transition name="createContactMech">
+        <service-call name="create#relationshipmgr.contactmech.ContactMech"/>
+        <default-response type="none"/>
+    </transition>
+    <transition name="createPostalAddress">
+        <service-call name="create#relationshipmgr.postaladdress.PostalAddress"/>
+        <default-response type="none"/>
+    </transition>
+    <transition name="createTelecomNumber">
+        <service-call name="create#relationshipmgr.telecom.TelecomNumber"/>
+        <default-response type="none"/>
+    </transition>
+    <transition name="createPartyContactMech">
+        <service-call name="create#relationshipmgr.partycontactmech.PartyContactMech"/>
+        <default-response type="none"/>
+    </transition>
+
+    <widgets>
+<!--        Widget to create a party-->
+        <container-box>
+            <box-header title="Create Party"/>
+            <box-body-nopad>
+                <form-single name="CreateParty" transition="createParty">
+                    <field name="partyId">
+                        <default-field>
+                            <text-line size="15"/>
+                        </default-field>
+                    </field>
+                    <field name="partyTypeEnumId">
+                        <default-field>
+                            <drop-down allow-empty="true" style="">
+                                <entity-options text="${description ?: ''} [${enumId}]">
+                                    <entity-find entity-name="moqui.basic.Enumeration">
+                                        <econdition field-name="enumTypeId" value="PartyType"/>
+                                        <order-by field-name="description"/>
+                                    </entity-find>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="createPartyButton">
+                        <default-field title="CreateParty">
+                            <submit/>
+                        </default-field>
+                    </field>
+                </form-single>
+            </box-body-nopad>
+        </container-box>
+
+
+<!--        Widget to create a Person-->
+        <container-box>
+            <box-header title="Create Person"/>
+            <box-body-nopad>
+                <form-single name="CreatePerson" transition="createPerson">
+                    <field name="partyId">
+                        <default-field>
+                            <drop-down allow-empty="true" style="">
+                                <entity-options>
+                                    <entity-find entity-name="relationshipmgr.party.Party"/>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="firstName">
+                        <default-field>
+                            <text-line/>
+                        </default-field>
+                    </field>
+                    <field name="lastName">
+                        <default-field>
+                            <text-line/>
+                        </default-field>
+                    </field>
+                    <field name="birthDate">
+                        <default-field>
+                            <date-time/>
+                        </default-field>
+                    </field>
+                    <field name="createPersonButton">
+                        <default-field title="CreatePerson">
+                            <submit/>
+                        </default-field>
+                    </field>
+                </form-single>
+            </box-body-nopad>
+        </container-box>
+
+<!--        Widget to create organization -->
+        <container-box>
+            <box-header title="Create Organization"/>
+            <box-body-nopad>
+                <form-single name="CreateOrganization" transition="createOrg">
+                    <field name="partyId">
+                        <default-field>
+                            <drop-down allow-empty="true" style="">
+                                <entity-options>
+                                    <entity-find entity-name="relationshipmgr.party.Party"/>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="organizationName">
+                        <default-field>
+                            <text-line/>
+                        </default-field>
+                    </field>
+                    <field name="createOrgButton">
+                        <default-field title="CreateOrg">
+                            <submit/>
+                        </default-field>
+                    </field>
+                </form-single>
+            </box-body-nopad>
+        </container-box>
+
+<!--        Widget to create party roles-->
+        <container-box>
+            <box-header title="Create Party Role"/>
+            <box-body-nopad>
+                <form-single name="CreatePartyRole" transition="createPartyRole">
+                    <field name="partyId">
+                        <default-field>
+                            <drop-down allow-empty="true" style="">
+                                <entity-options>
+                                    <entity-find entity-name="relationshipmgr.party.Party"/>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="roleTypeEnumId">
+                        <default-field>
+                            <drop-down allow-empty="true" style="">
+                                <entity-options text="${description ?: ''} [${enumId}]">
+                                    <entity-find entity-name="moqui.basic.Enumeration">
+                                        <econdition field-name="enumTypeId" value="RoleType"/>
+                                        <order-by field-name="description"/>
+                                    </entity-find>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="createPartyRoleButton">
+                        <default-field title="Create Role">
+                            <submit/>
+                        </default-field>
+                    </field>
+                </form-single>
+            </box-body-nopad>
+        </container-box>
+
+        <!-- widget to create contact mech -->
+        <container-box>
+            <box-header title="Create Contact Mech"/>
+            <box-body-nopad>
+                <form-single  name="CreateContactMech" transition="createContactMech">
+                    <field name="contactMechId">
+                        <default-field>
+                            <text-line size="15"/>
+                        </default-field>
+                    </field>
+                    <field name="contactMechPurposeId">
+                        <default-field>
+                            <drop-down allow-empty="true">
+                                <entity-options text="${description ?: ''} [${enumId}]">
+                                    <entity-find entity-name="moqui.basic.Enumeration">
+                                        <econdition field-name="enumTypeId" value="ContactMechPurposeType"/>
+                                    </entity-find>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="contactMechTypeEnumId">
+                        <default-field>
+                            <drop-down allow-empty="true">
+                                <entity-options text="${description ?: ''} [${enumId}]">
+                                    <entity-find entity-name="moqui.basic.Enumeration">
+                                        <econdition field-name="enumTypeId" value="ContactMechType"/>
+                                        <order-by field-name="description"/>
+                                    </entity-find>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="infoString">
+                        <default-field>
+                            <text-line input-type="email" size="15"/>
+                            <visible-when field="contactMechTypeEnumId" value="ctyEmailAddress"/>
+                        </default-field>
+                    </field>
+                    <field name="createContactMechButton">
+                        <default-field title="CreateContactMech">
+                            <submit/>
+                        </default-field>
+                    </field>
+                </form-single>
+            </box-body-nopad>
+        </container-box>
+
+        <!-- widget to create postal address -->
+        <container-box>
+            <box-header title="Create Postal Address"/>
+            <box-body-nopad>
+                <form-single name="CreatePostalAddress" transition="createPostalAddress">
+                    <field name="contactMechId">
+                        <default-field>
+                            <drop-down allow-empty="true" style="">
+                                <entity-options>
+                                    <entity-find entity-name="relationshipmgr.contactmech.ContactMech"/>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="toName"><default-field><text-line size="15"/></default-field></field>
+                    <field name="attnName"><default-field><text-line size="15"/></default-field></field>
+                    <field name="address1"><default-field><text-line size="15"/></default-field></field>
+                    <field name="address2"><default-field><text-line size="15"/></default-field></field>
+                    <field name="city"><default-field><text-line size="15"/></default-field></field>
+                    <field name="postal"><default-field><text-line size="15"/></default-field></field>
+                    <field name="createPostalAddressButton"><default-field title="CreatePostalAddress"><submit/></default-field></field>
+                </form-single>
+            </box-body-nopad>
+        </container-box>
+
+        <!--widget to create telecom number-->
+        <container-box>
+            <box-header title="Create Telecom Number"/>
+            <box-body-nopad>
+                <form-single name="CreateTelecomNumber" transition="createTelecomNumber">
+                    <field name="contactMechId">
+                        <default-field>
+                            <drop-down allow-empty="true" style="">
+                                <entity-options>
+                                    <entity-find entity-name="relationshipmgr.contactmech.ContactMech"/>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="countryCode">
+                        <default-field>
+                            <text-line size="15"/>
+                        </default-field>
+                    </field>
+                    <field name="areaCode">
+                        <default-field>
+                            <text-line size="15"/>
+                        </default-field>
+                    </field>
+                    <field name="contactNumber">
+                        <default-field>
+                            <text-line input-type="number" size="15"/>
+                        </default-field>
+                    </field>
+                    <field name="createTelecomNumberButton">
+                        <default-field title="CreateTelecomNumber">
+                            <submit/>
+                        </default-field>
+                    </field>
+                </form-single>
+            </box-body-nopad>
+        </container-box>
+
+        <!-- widget to create party contact mech -->
+        <container-box>
+            <box-header title="Create Party Contact Mech"/>
+            <box-body-nopad>
+                <form-single name="CreatePartyContactMech" transition="createPartyContactMech">
+                    <field name="partyId">
+                        <default-field>
+                            <drop-down allow-empty="true" style="">
+                                <entity-options>
+                                    <entity-find entity-name="relationshipmgr.party.Party"/>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="contactMechId">
+                        <default-field>
+                            <drop-down allow-empty="true" style="">
+                                <entity-options>
+                                    <entity-find entity-name="relationshipmgr.contactmech.ContactMech"/>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="contactMechPurposeId">
+                        <default-field>
+                            <drop-down allow-empty="true">
+                                <entity-options text="${description ?: ''} [${enumId}]">
+                                    <entity-find entity-name="moqui.basic.Enumeration">
+                                        <econdition field-name="enumTypeId" value="ContactMechPurposeType"/>
+                                    </entity-find>
+                                </entity-options>
+                            </drop-down>
+                        </default-field>
+                    </field>
+                    <field name="fromDate">
+                        <default-field title="fromDate">
+                            <text-line input-type="date" size="15"/>
+                        </default-field>
+                    </field>
+                    <field name="thruDate">
+                        <default-field title="thruDate">
+                            <text-line input-type="date" size="15"/>
+                        </default-field>
+                    </field>
+                    <field name="createPartyContactMechButton">
+                        <default-field title="CreatePartyContactMech">
+                            <submit/>
+                        </default-field>
+                    </field>
+                </form-single>
+            </box-body-nopad>
+        </container-box>
+
+    </widgets>
+</screen>
